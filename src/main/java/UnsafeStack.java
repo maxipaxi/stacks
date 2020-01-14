@@ -2,7 +2,7 @@ import java.util.EmptyStackException;
 
 class UnsafeStack<T> {
 
-    private Stack<T> stack;
+    private Stack<T, ?> stack;
 
     UnsafeStack() {
         stack = new EmptyStack<>();
@@ -15,12 +15,12 @@ class UnsafeStack<T> {
     void pop() {
         stack = stack.apply(new Visitor<>() {
             @Override
-            public Stack<T> apply(EmptyStack<T> s) {
+            public Stack<T, ?> apply(EmptyStack<T> s) {
                 throw new EmptyStackException();
             }
 
             @Override
-            public <R extends Stack<T>> Stack<T> apply(NonEmptyStack<T, R> s) {
+            public <R extends Stack<T, R>> Stack<T, R> apply(NonEmptyStack<T, R> s) {
                 return s.pop;
             }
         });
@@ -34,7 +34,7 @@ class UnsafeStack<T> {
             }
 
             @Override
-            public <R extends Stack<T>> T apply(NonEmptyStack<T, R> s) {
+            public <R extends Stack<T, R>> T apply(NonEmptyStack<T, R> s) {
                 return s.peek;
             }
         });

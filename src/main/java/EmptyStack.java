@@ -1,4 +1,4 @@
-class EmptyStack<T> implements Stack<T> {
+class EmptyStack<T> implements Stack<T, EmptyStack<T>> {
     static final int depth = 0;
 
     @Override

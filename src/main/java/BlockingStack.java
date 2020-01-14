@@ -4,7 +4,7 @@ class BlockingStack<T> {
     private static class Impossible extends RuntimeException {
     }
 
-    private Stack<T> stack;
+    private Stack<T, ?> stack;
     private Semaphore available;
 
     BlockingStack() {
@@ -21,12 +21,12 @@ class BlockingStack<T> {
         available.acquireUninterruptibly();
         stack = stack.apply(new Visitor<>() {
             @Override
-            public Stack<T> apply(EmptyStack<T> s) {
+            public Stack<T, ?> apply(EmptyStack<T> s) {
                 throw new Impossible();
             }
 
             @Override
-            public <R extends Stack<T>> Stack<T> apply(NonEmptyStack<T, R> s) {
+            public <R extends Stack<T, R>> Stack<T, R> apply(NonEmptyStack<T, R> s) {
                 return s.pop;
             }
         });
@@ -42,7 +42,7 @@ class BlockingStack<T> {
             }
 
             @Override
-            public <R extends Stack<T>> T apply(NonEmptyStack<T, R> s) {
+            public <R extends Stack<T, R>> T apply(NonEmptyStack<T, R> s) {
                 return s.peek;
             }
         });

@@ -1,4 +1,4 @@
-class NonEmptyStack<T, R extends Stack<T>> implements Stack<T> {
+class NonEmptyStack<T, R extends Stack<T, R>> implements Stack<T, NonEmptyStack<T, R>> {
     final int depth;
     final T peek;
     final R pop;

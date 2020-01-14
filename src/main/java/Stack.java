@@ -1,7 +1,7 @@
-interface Stack<T> {
+interface Stack<T, THIS extends Stack<T, THIS>> {
     <G> G apply(Visitor<T, G> v);
 
     int getDepth();
 
-    Stack<T> push(T elem);
+    NonEmptyStack<T, THIS> push(T elem);
 }
